@@ -8,11 +8,15 @@ IP and MAC addresses.
 
 ### To run on your system (must be linux for now):
 Clone the repo:
+
 `gh repo clone bradyhelms/Packet-Analyzer-Senior-Project`
 
 Run CMake:
+
 `cmake -S . -B build`
+
 `cmake --build build`
 
 If you compiled succesfully, run the program using:
+
 `sudo ./PacketAnalyzer`
