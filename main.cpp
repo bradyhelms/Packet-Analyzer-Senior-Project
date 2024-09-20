@@ -1,6 +1,10 @@
+#include <algorithm>
 #include <iostream>
+#include <iomanip>
 #include <memory>
+#include <sstream>
 #include <unistd.h>
+#include <vector>
 #include "stdlib.h" 
 #include "EthLayer.h"
 #include "IPv4Layer.h"
@@ -9,6 +13,7 @@
 #include "SystemUtils.h"
 
 void printUsage();
+std::string incrementMac(std::string MACAddr, int incr);
 
 int main(int argc, char** argv) {
     // TODO: fix this
@@ -78,6 +83,9 @@ int main(int argc, char** argv) {
     // stop capture
     device->stopCapture();
 
+    // Variable used to increment the mac in below loop
+    int inc = 0;
+
     for (const auto& packet : rawPacketVec) {
         pcpp::Packet parsedPacket(packet);
         auto* ethernetLayer = parsedPacket.getLayerOfType<pcpp::EthLayer>();
@@ -100,8 +108,15 @@ int main(int argc, char** argv) {
             << "Source IP:\t" << ipLayer->getSrcIPAddress()     << std::endl
             << "Dest IP:\t" << ipLayer->getDstIPAddress() << "\n\n";
 
+
         // Change the src address
-        ethernetLayer->setSourceMac(pcpp::MacAddress("ff:ff:ff:ff:ff:ff"));
+        ethernetLayer->setSourceMac(
+                pcpp::MacAddress(
+                    incrementMac(
+                        ethernetLayer->getSourceMac().toString(), 
+                        ++inc)
+                    )
+                );
 
         std::cout 
             << "Edited Packet -----------------------"          << std::endl
@@ -112,7 +127,9 @@ int main(int argc, char** argv) {
 
         // DEBUG: returning after the first attempt, just for testing
         // Comment out the return if you want to modify every packet coming through
-        return 0;
+        //  or uncomment if you want to run a bunch of packets through. 
+        //  Warning, it's a lot
+        // return 0;
     }
     return 0;
 }
@@ -121,4 +138,25 @@ void printUsage() {
     std::cout << "Usage: ./PacketAnalyzer [Options]" << std::endl
         << "\t-a [IPv4 Address]" << std::endl
         << "\t-m [MAC Address]" << std::endl;
+}
+
+std::string incrementMac(std::string mac, int incr) {
+    // remove the colons
+    mac.erase(std::remove(mac.begin(), mac.end(), ':'), mac.end());
+
+    // store the stringy hex value into a decimal int and increment
+    long tempDecVal = std::stol(mac, nullptr, 16);
+    tempDecVal += incr;
+
+    // Convert back to hex, pad with zeros if too small
+    std::stringstream ss; 
+    ss << std::hex << std::setw(12) << std::setfill('0') << tempDecVal;
+    mac = ss.str();
+
+    // re add the colons
+    for (int i = 2; i < mac.length(); i += 3) {
+        mac.insert(i, ":");
+    }
+
+    return mac;
 }
