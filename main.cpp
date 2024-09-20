@@ -93,10 +93,24 @@ int main(int argc, char** argv) {
         }
 
         std::cout 
+            << "Original Packet ---------------------"          << std::endl
             << "Source MAC:\t" << ethernetLayer->getSourceMac() << std::endl
-            << "Dest MAC:\t" << ethernetLayer->getDestMac() << std::endl
-            << "Source IP:\t" << ipLayer->getSrcIPAddress() << std::endl
+            << "Dest MAC:\t" << ethernetLayer->getDestMac()     << std::endl
+            << "Source IP:\t" << ipLayer->getSrcIPAddress()     << std::endl
             << "Dest IP:\t" << ipLayer->getDstIPAddress() << "\n\n";
+
+        // Change the src address
+        ethernetLayer->setSourceMac(pcpp::MacAddress("ff:ff:ff:ff:ff:ff"));
+
+        std::cout 
+            << "Edited Packet -----------------------"          << std::endl
+            << "Source MAC:\t" << ethernetLayer->getSourceMac() << std::endl
+            << "*Dest MAC:\t" << ethernetLayer->getDestMac()    << std::endl
+            << "Source IP:\t" << ipLayer->getSrcIPAddress()     << std::endl
+            << "Dest IP:\t" << ipLayer->getDstIPAddress() << "\n\n";
+
+        // DEBUG: returning after the first attempt, just for testing
+        return 0;
     }
     return 0;
 }
