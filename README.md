@@ -1,27 +1,37 @@
-# Packet Analyzer for Group 15 Senior Project
 
-This repo contains a work in progress example of what our FPGA-based inline network
-tap will be able to do. 
+<h1 align="center">
+  <br>
+    Group 15 Senior Project Software Example 
+  <br>
+</h1>
 
-Right now, it can only accept an IP address and will output the source and destination
-IP and MAC addresses. 
+<h4 align="center">Software testing for our FPGA-based inline network tap.</h4>
 
-## Requirements
-CMake
+<p align="center">
+  <a href="#currentabilities">Current Abilities</a>
+  <a href="#buildinstructions">Build Instructions</a>
+</p>
 
-PCapPlusPlus
+## Current Abilities 
+* Intercept traffic from your computer's onboard NIC
+* Adjust the destination MAC address of a real packet
 
-## To run on your system (must be linux for now):
-Clone the repo:
 
-`gh repo clone bradyhelms/Packet-Analyzer-Senior-Project`
+## Build Instructions
 
-Run CMake:
+```bash
+# Clone this repository
+$ gh repo clone bradyhelms/Packet-Analyzer-Senior-Project
 
-`cmake -S . -B build`
+# cd into the repository
+$ cd Packet-Analyzer-Senior-Project
 
-`cmake --build build`
+# Run CMake
+$ cmake -S . -B build
 
-If you compiled succesfully, run the program using:
+# Build
+$ cmake --build build
 
-`sudo ./PacketAnalyzer`
+# If everything builds successfully, run using:
+$ sudo ./PacketAnalyzer
+```
