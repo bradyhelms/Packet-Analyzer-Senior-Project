@@ -1,0 +1,99 @@
+#include <iostream>
+#include <memory>
+#include <unistd.h>
+#include "stdlib.h" 
+#include "EthLayer.h"
+#include "IPv4Layer.h"
+#include "Packet.h"
+#include "PcapLiveDeviceList.h"
+#include "SystemUtils.h"
+
+void printUsage();
+
+int main(int argc, char** argv) {
+    // TODO: fix this
+    /**
+    // Process command line args
+    if (argc == 1) {
+        printUsage();
+        return 0;
+    }
+
+    int opt;
+    std::string interfaceAddr;
+    while ((opt = getopt(argc, argv, "am")) != -1) {
+        switch(opt) {
+            case 'a':
+                interfaceAddr = optarg;
+                std::cout << interfaceAddr;
+                break;
+            case 'm':
+                interfaceAddr = optarg;
+                break;
+            default:
+                printUsage();
+                return 0;
+        }
+    }
+
+   */ 
+
+    // start
+
+    std::string interfaceAddr = "192.168.50.2";
+    auto* device =
+        pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(interfaceAddr);
+
+    if (device == nullptr) {
+        std::cerr << "Cannot find interface with IPv4 address [" << interfaceAddr
+            << "]" << std::endl;
+        return 1;
+    }
+
+    // Open the device
+    if (!device->open()) {
+        std::cerr << "Cannot open device: " <<  device->getName() << std::endl;
+    }
+
+    std::cout << std::endl << "Starting capture..." << std::endl;
+
+    // create empty packet vector
+    pcpp::RawPacketVector rawPacketVec;
+
+    device->startCapture(rawPacketVec);
+
+    // Sleep for ten secs while the packets are captured
+    pcpp::multiPlatformSleep(2);
+
+    // stop capture
+    device->stopCapture();
+
+    for (const auto& packet : rawPacketVec) {
+        pcpp::Packet parsedPacket(packet);
+        auto* ethernetLayer = parsedPacket.getLayerOfType<pcpp::EthLayer>();
+        auto* ipLayer = parsedPacket.getLayerOfType<pcpp::IPv4Layer>();
+
+        if (ethernetLayer == nullptr) {
+            std::cerr << "Error, couldn't find Ethernet layer" << std::endl;
+            return 1;
+        }
+
+        if (ipLayer == nullptr) {
+            std::cerr << "Error, couldn't find IP layer" << std::endl;
+            return 1;
+        }
+
+        std::cout 
+            << "Source MAC:\t" << ethernetLayer->getSourceMac() << std::endl
+            << "Dest MAC:\t" << ethernetLayer->getDestMac() << std::endl
+            << "Source IP:\t" << ipLayer->getSrcIPAddress() << std::endl
+            << "Dest IP:\t" << ipLayer->getDstIPAddress() << "\n\n";
+    }
+    return 0;
+}
+
+void printUsage() {
+    std::cout << "Usage: ./PacketAnalyzer [Options]" << std::endl
+        << "\t-a [IPv4 Address]" << std::endl
+        << "\t-m [MAC Address]" << std::endl;
+}
