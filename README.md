@@ -6,7 +6,11 @@ tap will be able to do.
 Right now, it can only accept an IP address and will output the source and destination
 IP and MAC addresses. 
 
-### To run on your system (must be linux for now):
+## Requirements
+CMake
+PCapPlusPlus
+
+## To run on your system (must be linux for now):
 Clone the repo:
 
 `gh repo clone bradyhelms/Packet-Analyzer-Senior-Project`
