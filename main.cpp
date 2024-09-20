@@ -40,7 +40,16 @@ int main(int argc, char** argv) {
 
     // start
 
-    std::string interfaceAddr = "192.168.50.2";
+    // Put your current IP address here
+    std::string interfaceAddr = "";
+
+    if (interfaceAddr.empty()) {
+        std::cout 
+            << "You need to input an IP address for this to work. (see line 43)"
+            << std::endl;
+        return 0;
+    }
+
     auto* device =
         pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(interfaceAddr);
 

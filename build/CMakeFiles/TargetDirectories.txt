@@ -1,3 +1,0 @@
-/home/hvna/Programming/projects/packet_analyzer/build/CMakeFiles/PacketAnalyzer.dir
-/home/hvna/Programming/projects/packet_analyzer/build/CMakeFiles/edit_cache.dir
-/home/hvna/Programming/projects/packet_analyzer/build/CMakeFiles/rebuild_cache.dir
