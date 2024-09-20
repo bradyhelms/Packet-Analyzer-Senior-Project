@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
         pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(interfaceAddr);
 
     if (device == nullptr) {
-        std::cerr << "Cannot find interface with IPv4 address [" << interfaceAddr
+        std::cerr << "Cannot find interface with address [" << interfaceAddr
             << "]" << std::endl;
         return 1;
     }
@@ -69,9 +69,10 @@ int main(int argc, char** argv) {
     // create empty packet vector
     pcpp::RawPacketVector rawPacketVec;
 
+    // Asynchronous capture, TODO change to synchronous
     device->startCapture(rawPacketVec);
 
-    // Sleep for ten secs while the packets are captured
+    // Sleep for x secs while the packets are captured
     pcpp::multiPlatformSleep(2);
 
     // stop capture
@@ -110,6 +111,7 @@ int main(int argc, char** argv) {
             << "Dest IP:\t" << ipLayer->getDstIPAddress() << "\n\n";
 
         // DEBUG: returning after the first attempt, just for testing
+        // Comment out the return if you want to modify every packet coming through
         return 0;
     }
     return 0;
