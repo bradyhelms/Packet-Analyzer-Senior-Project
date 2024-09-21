@@ -16,42 +16,33 @@ void printUsage();
 std::string incrementMac(std::string MACAddr, int incr);
 
 int main(int argc, char** argv) {
-    // TODO: fix this
-    /**
     // Process command line args
     if (argc == 1) {
         printUsage();
         return 0;
     }
 
-    int opt;
+    int opt = -1;
     std::string interfaceAddr;
-    while ((opt = getopt(argc, argv, "am")) != -1) {
+    while ((opt = getopt(argc, argv, "a:m:")) != -1) {
         switch(opt) {
             case 'a':
                 interfaceAddr = optarg;
-                std::cout << interfaceAddr;
                 break;
             case 'm':
-                interfaceAddr = optarg;
+                std::cout << "MAC based retreival is not yet working." << std::endl;
+                //interfaceAddr = optarg;
+                return 0;
                 break;
             default:
                 printUsage();
                 return 0;
         }
     }
-
-   */ 
-
     // start
 
-    // Put your current IP address here
-    std::string interfaceAddr = "";
-
     if (interfaceAddr.empty()) {
-        std::cout 
-            << "You need to input an IP address for this to work. (see line 43)"
-            << std::endl;
+        printUsage();
         return 0;
     }
 
