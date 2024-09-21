@@ -15,6 +15,8 @@
 void printUsage();
 std::string incrementMac(std::string MACAddr, int incr);
 
+#define PACK_CAP_TIME 2
+
 int main(int argc, char** argv) {
     // Process command line args
     if (argc == 1) {
@@ -68,8 +70,8 @@ int main(int argc, char** argv) {
     // Asynchronous capture, TODO change to synchronous
     device->startCapture(rawPacketVec);
 
-    // Sleep for x secs while the packets are captured
-    pcpp::multiPlatformSleep(2);
+    // Sleep for PACK_CAP_TIME secs while the packets are captured
+    pcpp::multiPlatformSleep(PACK_CAP_TIME);
 
     // stop capture
     device->stopCapture();
