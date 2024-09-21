@@ -133,6 +133,14 @@ void printUsage() {
         << "\t-m [MAC Address]" << std::endl;
 }
 
+/**
+ * TODO
+ * Change this function to generate a random int.
+ *  - this will need to be within the range of acceptable MAC addresses
+ *  - i.e. it cannot exceed FF:FF:FF:FF:FF:FF.
+ *  - we should look up what the highest assigned MAC ever was and use
+ *          (FF:FF:FF:FF:FF:FF) - (MAX_EVER_MAC) = max rand value
+ */
 std::string incrementMac(std::string mac, int incr) {
     // remove the colons
     mac.erase(std::remove(mac.begin(), mac.end(), ':'), mac.end());
