@@ -33,5 +33,8 @@ $ cmake -S . -B build
 $ cmake --build build
 
 # If everything builds successfully, run using:
+$ sudo ./PacketAnalyzer [OPTIONS]
+
+# If you need help, run the executable without args to print usage.
 $ sudo ./PacketAnalyzer
 ```
